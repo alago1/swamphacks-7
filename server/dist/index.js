@@ -17,6 +17,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     axios_1.default.get("https://api.kanye.rest").then((res) => {
         console.log(res.data);
     });
+    console.log(process.env.test);
 });
 main();
 //# sourceMappingURL=index.js.map
