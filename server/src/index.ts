@@ -8,7 +8,7 @@ import {
   fetch_venue_forecast,
   removeDups,
 } from "./util";
-import { PlacesAPIResults, NearbyPlacesResults } from "./maps_api";
+import { NearbyPlacesResults } from "./maps_api";
 
 const main = async () => {
   const app = express();
