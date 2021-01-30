@@ -35,7 +35,7 @@ const main = async () => {
       }
     });
 
-  app.listen(8000);
+  app.listen(process.env.PORT || 8000);
 };
 
 const fetch_locations = (request: any, response: any) => {
