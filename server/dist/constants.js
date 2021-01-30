@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.api_place_details = exports.api_nearby_places = void 0;
+exports.api_pois = exports.api_place_details = exports.api_nearby_places = void 0;
 exports.api_nearby_places = [
     "accounting",
     "airport",
@@ -142,6 +142,44 @@ exports.api_place_details = [
     "sublocality_level_4",
     "sublocality_level_5",
     "subpremise",
+    "town_square",
+];
+exports.api_pois = [
+    "amusement_park",
+    "aquarium",
+    "art_gallery",
+    "bakery",
+    "beauty_salon",
+    "bicycle_store",
+    "book_store",
+    "bowling_alley",
+    "cafe",
+    "campground",
+    "casino",
+    "city_hall",
+    "clothing_store",
+    "convenience_store",
+    "department_store",
+    "electronics_store",
+    "embassy",
+    "florist",
+    "hair_care",
+    "hardware_store",
+    "library",
+    "local_government_office",
+    "movie_theater",
+    "museum",
+    "park",
+    "restaurant",
+    "shopping_mall",
+    "spa",
+    "stadium",
+    "store",
+    "tourist_attraction",
+    "zoo",
+    "locality",
+    "natural_feature",
+    "point_of_interest",
     "town_square",
 ];
 //# sourceMappingURL=constants.js.map

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { api_place_details, api_nearby_places } from "./constants";
+import { api_pois } from "./constants";
 import {
   location,
   PlacesAPIResponse,
@@ -9,6 +9,17 @@ import {
 } from "./maps_api";
 import { venue_forecast } from "./besttime_api";
 const fetch = require("node-fetch");
+
+export const removeDups = <T>(arr: T[], key: Function): T[] => {
+  const seen = new Set();
+  return arr.filter((e) => {
+    if (seen.has(key(e))) {
+      return false;
+    }
+    seen.add(key(e));
+    return true;
+  });
+};
 
 const dist_between_coords = (
   lat1: number,
@@ -70,14 +81,32 @@ export const filter_by_closest = (
 export const fetch_nearby_places = async (
   location: location,
   radius: number,
-  filter: detailed_place_type | undefined | ""
+  disabled_pois: detailed_place_type[]
+): Promise<any> => {
+  const filters = api_pois.filter(
+    (e) => !disabled_pois || !disabled_pois.includes(e)
+  );
+
+  return Promise.all(
+    filters.map((filter) =>
+      get_filtered_pois(location, radius, filter)
+        .then((res) => res.data.results!)
+        .then((res) => filter_by_closest(location.lat, location.lng, res, 5))
+    )
+  );
+};
+
+export const get_filtered_pois = async (
+  location: location,
+  radius: number,
+  filter: detailed_place_type
 ): Promise<api_response<PlacesAPIResponse>> => {
   return axios.get(
     `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${
       location.lat
-    },${location.lng}&radius=${radius}&${
-      filter && filter.length > 0 ? `type=${filter}&` : ""
-    }key=${process.env.googlemaps_api_key}`
+    },${location.lng}&radius=${radius}&${filter ? `type=${filter}&` : ""}key=${
+      process.env.googlemaps_api_key
+    }`
   );
 };
 

@@ -38,13 +38,18 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     app.listen(8000);
 });
 const fetch_locations = (request, response) => {
-    const location = { lat: request.query.lat, lng: request.query.lng };
+    const location = {
+        lat: 28.54685,
+        lng: -81.53067,
+    };
     const radius = 1000;
-    const filter = request.query.filter;
-    util_1.fetch_nearby_places(location, radius, filter)
-        .then((res) => {
-        const data = res.data;
-        return util_1.filter_by_closest(location.lat, location.lng, data.results, 20);
+    const disabled_pois = request.query.filter;
+    util_1.fetch_nearby_places(location, radius, disabled_pois)
+        .then((places) => {
+        const queried_places = util_1.removeDups(places
+            .filter((e) => e.length > 0)
+            .reduce((acc, val) => acc.concat(val), []), (e) => e.place_id);
+        return util_1.filter_by_closest(location.lat, location.lng, queried_places, 20);
     })
         .then((closest) => __awaiter(void 0, void 0, void 0, function* () {
         const detailed_places = [];
@@ -62,12 +67,12 @@ const fetch_locations = (request, response) => {
             forecasted_places.push(Object.assign({ forecast: yield forecast }, e));
             return forecast;
         })));
-        return forecasted_places
-            .filter((e) => e.forecast.status === "OK")
-            .map((e) => (Object.assign(Object.assign({}, e), { forecast: e.forecast.analysis })));
+        return forecasted_places.map((e) => {
+            var _a, _b;
+            return (Object.assign(Object.assign({}, e), { forecast: (_b = (_a = e.forecast) === null || _a === void 0 ? void 0 : _a.analysis) !== null && _b !== void 0 ? _b : null }));
+        });
     }))
         .then((e) => {
-        console.log(e.length);
         response.send(e);
     })
         .catch((e) => console.error(e));

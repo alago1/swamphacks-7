@@ -6,8 +6,9 @@ import {
   fetch_nearby_places,
   fetch_place_details,
   fetch_venue_forecast,
+  removeDups,
 } from "./util";
-import { PlacesAPIResponse, NearbyPlacesResults } from "./maps_api";
+import { PlacesAPIResults, NearbyPlacesResults } from "./maps_api";
 
 const main = async () => {
   const app = express();
@@ -38,19 +39,29 @@ const main = async () => {
 };
 
 const fetch_locations = (request: any, response: any) => {
-  const location = { lat: request.query.lat, lng: request.query.lng };
+  const location = /*{ lat: request.query.lat, lng: request.query.lng };*/ {
+    lat: 28.54685,
+    lng: -81.53067,
+  };
   const radius = 1000;
-  const filter = request.query.filter;
+  const disabled_pois = request.query.filter;
 
-  fetch_nearby_places(location, radius, filter)
-    .then((res: any) => {
+  fetch_nearby_places(location, radius, disabled_pois)
+    .then((places: any[]) => {
       // filter closest places
-      const data = res.data as PlacesAPIResponse;
+      const queried_places: any = removeDups(
+        places
+          .filter((e: any[]) => e.length > 0)
+          .reduce((acc, val) => acc.concat(val), []),
+        (e: any) => e.place_id
+      );
+      // console.log(queried_places);
+      // console.log(queried_places.length);
 
       return filter_by_closest(
         location.lat,
         location.lng,
-        data.results!,
+        queried_places,
         20
       ) as NearbyPlacesResults[];
     })
@@ -82,14 +93,15 @@ const fetch_locations = (request: any, response: any) => {
           return forecast;
         })
       );
-      return forecasted_places
-        .filter((e: any) => e.forecast.status === "OK")
-        .map((e: any) => ({ ...e, forecast: e.forecast.analysis }));
+      return forecasted_places.map((e: any) => ({
+        ...e,
+        forecast: e.forecast?.analysis ?? null,
+      }));
     })
     .then((e) => {
       // console.log("success");
       // console.log(e);
-      console.log(e.length);
+      // console.log(e.length);
       response.send(e);
     })
     .catch((e) => console.error(e));

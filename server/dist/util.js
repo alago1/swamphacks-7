@@ -12,9 +12,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetch_venue_forecast = exports.fetch_place_details = exports.fetch_nearby_places = exports.filter_by_closest = void 0;
+exports.fetch_venue_forecast = exports.fetch_place_details = exports.get_filtered_pois = exports.fetch_nearby_places = exports.filter_by_closest = exports.removeDups = void 0;
 const axios_1 = __importDefault(require("axios"));
+const constants_1 = require("./constants");
 const fetch = require("node-fetch");
+const removeDups = (arr, key) => {
+    const seen = new Set();
+    return arr.filter((e) => {
+        if (seen.has(key(e))) {
+            return false;
+        }
+        seen.add(key(e));
+        return true;
+    });
+};
+exports.removeDups = removeDups;
 const dist_between_coords = (lat1, lng1, lat2, lng2) => {
     const R = 6371e3;
     const φ1 = (lat1 * Math.PI) / 180;
@@ -54,10 +66,17 @@ const filter_by_closest = (lat1, lng1, google_places_results, amt) => {
     return closest_results.filter((e) => e);
 };
 exports.filter_by_closest = filter_by_closest;
-const fetch_nearby_places = (location, radius, filter) => __awaiter(void 0, void 0, void 0, function* () {
-    return axios_1.default.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.lat},${location.lng}&radius=${radius}&${filter && filter.length > 0 ? `type=${filter}&` : ""}key=${process.env.googlemaps_api_key}`);
+const fetch_nearby_places = (location, radius, disabled_pois) => __awaiter(void 0, void 0, void 0, function* () {
+    const filters = constants_1.api_pois.filter((e) => !disabled_pois || !disabled_pois.includes(e));
+    return Promise.all(filters.map((filter) => exports.get_filtered_pois(location, radius, filter)
+        .then((res) => res.data.results)
+        .then((res) => exports.filter_by_closest(location.lat, location.lng, res, 5))));
 });
 exports.fetch_nearby_places = fetch_nearby_places;
+const get_filtered_pois = (location, radius, filter) => __awaiter(void 0, void 0, void 0, function* () {
+    return axios_1.default.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.lat},${location.lng}&radius=${radius}&${filter ? `type=${filter}&` : ""}key=${process.env.googlemaps_api_key}`);
+});
+exports.get_filtered_pois = get_filtered_pois;
 const fetch_place_details = (place_id) => __awaiter(void 0, void 0, void 0, function* () {
     return axios_1.default.get(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&fields=formatted_address&key=${process.env.googlemaps_api_key}`);
 });
