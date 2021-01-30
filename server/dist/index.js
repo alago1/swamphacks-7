@@ -38,10 +38,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     app.listen(8000);
 });
 const fetch_locations = (request, response) => {
-    const location = {
-        lat: 28.54685,
-        lng: -81.53067,
-    };
+    const location = { lat: request.query.lat, lng: request.query.lng };
     const radius = 1000;
     const disabled_pois = request.query.filter;
     util_1.fetch_nearby_places(location, radius, disabled_pois)

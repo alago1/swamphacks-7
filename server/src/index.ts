@@ -39,10 +39,7 @@ const main = async () => {
 };
 
 const fetch_locations = (request: any, response: any) => {
-  const location = /*{ lat: request.query.lat, lng: request.query.lng };*/ {
-    lat: 28.54685,
-    lng: -81.53067,
-  };
+  const location = { lat: request.query.lat, lng: request.query.lng };
   const radius = 1000;
   const disabled_pois = request.query.filter;
 
