@@ -37,10 +37,10 @@ const main = async () => {
   app.listen(8000);
 };
 
-const fetch_locations = (_: any, response: any) => {
-  const location = { lat: 28.54685, lng: -81.53067 };
+const fetch_locations = (request: any, response: any) => {
+  const location = { lat: request.query.lat, lng: request.query.lng };
   const radius = 1000;
-  const filter = "restaurant";
+  const filter = request.query.filter;
 
   fetch_nearby_places(location, radius, filter)
     .then((res: any) => {
@@ -51,7 +51,7 @@ const fetch_locations = (_: any, response: any) => {
         location.lat,
         location.lng,
         data.results!,
-        10
+        20
       ) as NearbyPlacesResults[];
     })
     .then(async (closest: NearbyPlacesResults[]) => {
@@ -87,7 +87,7 @@ const fetch_locations = (_: any, response: any) => {
         .map((e: any) => ({ ...e, forecast: e.forecast.analysis }));
     })
     .then((e) => {
-      console.log("success");
+      // console.log("success");
       // console.log(e);
       console.log(e.length);
       response.send(e);

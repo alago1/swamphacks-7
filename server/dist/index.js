@@ -37,14 +37,14 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     });
     app.listen(8000);
 });
-const fetch_locations = (_, response) => {
-    const location = { lat: 28.54685, lng: -81.53067 };
+const fetch_locations = (request, response) => {
+    const location = { lat: request.query.lat, lng: request.query.lng };
     const radius = 1000;
-    const filter = "restaurant";
+    const filter = request.query.filter;
     util_1.fetch_nearby_places(location, radius, filter)
         .then((res) => {
         const data = res.data;
-        return util_1.filter_by_closest(location.lat, location.lng, data.results, 10);
+        return util_1.filter_by_closest(location.lat, location.lng, data.results, 20);
     })
         .then((closest) => __awaiter(void 0, void 0, void 0, function* () {
         const detailed_places = [];
@@ -67,7 +67,6 @@ const fetch_locations = (_, response) => {
             .map((e) => (Object.assign(Object.assign({}, e), { forecast: e.forecast.analysis })));
     }))
         .then((e) => {
-        console.log("success");
         console.log(e.length);
         response.send(e);
     })

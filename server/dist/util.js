@@ -55,7 +55,7 @@ const filter_by_closest = (lat1, lng1, google_places_results, amt) => {
 };
 exports.filter_by_closest = filter_by_closest;
 const fetch_nearby_places = (location, radius, filter) => __awaiter(void 0, void 0, void 0, function* () {
-    return axios_1.default.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.lat},${location.lng}&radius=${radius}&${filter ? `type=${filter}&` : ""}key=${process.env.googlemaps_api_key}`);
+    return axios_1.default.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.lat},${location.lng}&radius=${radius}&${filter && filter.length > 0 ? `type=${filter}&` : ""}key=${process.env.googlemaps_api_key}`);
 });
 exports.fetch_nearby_places = fetch_nearby_places;
 const fetch_place_details = (place_id) => __awaiter(void 0, void 0, void 0, function* () {

@@ -1,9 +1,11 @@
 import axios from "axios";
+import { api_place_details, api_nearby_places } from "./constants";
 import {
   location,
   PlacesAPIResponse,
   api_results,
   api_response,
+  detailed_place_type,
 } from "./maps_api";
 import { venue_forecast } from "./besttime_api";
 const fetch = require("node-fetch");
@@ -68,14 +70,14 @@ export const filter_by_closest = (
 export const fetch_nearby_places = async (
   location: location,
   radius: number,
-  filter: string
+  filter: detailed_place_type | undefined | ""
 ): Promise<api_response<PlacesAPIResponse>> => {
   return axios.get(
     `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${
       location.lat
-    },${location.lng}&radius=${radius}&${filter ? `type=${filter}&` : ""}key=${
-      process.env.googlemaps_api_key
-    }`
+    },${location.lng}&radius=${radius}&${
+      filter && filter.length > 0 ? `type=${filter}&` : ""
+    }key=${process.env.googlemaps_api_key}`
   );
 };
 
