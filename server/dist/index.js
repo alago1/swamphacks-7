@@ -12,11 +12,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const axios_1 = __importDefault(require("axios"));
 const express_1 = __importDefault(require("express"));
+const body_parser_1 = __importDefault(require("body-parser"));
 const util_1 = require("./util");
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const app = express_1.default();
+    app.use(body_parser_1.default.json());
     app.get("/", (req, res) => fetch_locations(req, res));
+    axios_1.default
+        .get(`https://besttime.app/api/v1/keys/${process.env.besttime_pri}`)
+        .then((res) => {
+        const e = res.data;
+        if (e.status == "OK" &&
+            e.active &&
+            e.credits_forecast > 0 &&
+            e.credits_query > 0) {
+            console.log(`Besttime api is ready! 🚀️  Credits left: ${e.credits_forecast}F ${e.credits_query}Q`);
+        }
+        else {
+            console.log("Besttime api problem 😵️");
+            console.log(e);
+        }
+    });
     app.listen(8000);
 });
 const fetch_locations = (_, response) => {
@@ -37,8 +55,8 @@ const fetch_locations = (_, response) => {
         })));
         return detailed_places;
     }))
-        .then((e) => {
-        response.send(e);
+        .then((places) => {
+        response.send(places);
     });
 };
 main();

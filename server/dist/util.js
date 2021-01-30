@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetch_place_details = exports.fetch_nearby_places = exports.filter_by_closest = void 0;
+exports.fetch_venue_forecast = exports.fetch_place_details = exports.fetch_nearby_places = exports.filter_by_closest = void 0;
 const axios_1 = __importDefault(require("axios"));
 const dist_between_coords = (lat1, lng1, lat2, lng2) => {
     const R = 6371e3;
@@ -61,4 +61,13 @@ const fetch_place_details = (place_id) => __awaiter(void 0, void 0, void 0, func
     return axios_1.default.get(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&fields=formatted_address&key=${process.env.googlemaps_api_key}`);
 });
 exports.fetch_place_details = fetch_place_details;
+const fetch_venue_forecast = (venue_name, venue_address) => __awaiter(void 0, void 0, void 0, function* () {
+    const params = {
+        api_key_private: process.env.besttime_pri,
+        venue_name: venue_name,
+        venue_address: venue_address,
+    };
+    return axios_1.default.post(`https://besttime.app/api/v1/forecasts/live?${new URLSearchParams(params)}`);
+});
+exports.fetch_venue_forecast = fetch_venue_forecast;
 //# sourceMappingURL=util.js.map

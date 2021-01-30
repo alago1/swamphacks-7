@@ -1,20 +1,37 @@
+import axios from "axios";
 import express from "express";
+import bodyParser from "body-parser";
 import {
   filter_by_closest,
   fetch_nearby_places,
   fetch_place_details,
 } from "./util";
-import {
-  PlacesAPIResponse,
-  api_results,
-  NearbyPlacesResults,
-  PlaceDetailsResults,
-} from "./maps_api";
+import { PlacesAPIResponse, NearbyPlacesResults } from "./maps_api";
 
 const main = async () => {
   const app = express();
+  app.use(bodyParser.json());
 
   app.get("/", (req, res) => fetch_locations(req, res));
+
+  axios
+    .get(`https://besttime.app/api/v1/keys/${process.env.besttime_pri}`)
+    .then((res: any) => {
+      const e = res.data;
+      if (
+        e.status == "OK" &&
+        e.active &&
+        e.credits_forecast > 0 &&
+        e.credits_query > 0
+      ) {
+        console.log(
+          `Besttime api is ready! 🚀️  Credits left: ${e.credits_forecast}F ${e.credits_query}Q`
+        );
+      } else {
+        console.log("Besttime api problem 😵️");
+        console.log(e);
+      }
+    });
 
   app.listen(8000);
 };
@@ -26,6 +43,7 @@ const fetch_locations = (_: any, response: any) => {
 
   fetch_nearby_places(location, radius, filter)
     .then((res: any) => {
+      // filter closest places
       const data = res.data as PlacesAPIResponse;
 
       return filter_by_closest(
@@ -36,6 +54,7 @@ const fetch_locations = (_: any, response: any) => {
       ) as NearbyPlacesResults[];
     })
     .then(async (closest: NearbyPlacesResults[]) => {
+      // get their addresses
       const detailed_places: NearbyPlacesResults[] = [];
       await Promise.all(
         closest.map(async (e) => {
@@ -49,8 +68,9 @@ const fetch_locations = (_: any, response: any) => {
       );
       return detailed_places;
     })
-    .then((e: any) => {
-      response.send(e);
+    .then((places: NearbyPlacesResults[]) => {
+      // get forecast data
+      response.send(places);
     });
 };
 

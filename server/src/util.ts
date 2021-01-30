@@ -1,13 +1,11 @@
 import axios from "axios";
 import {
-  NearbyPlacesResults,
-  PlaceDetailsResults,
   location,
-  PlacesAPIResults,
   PlacesAPIResponse,
   api_results,
   api_response,
 } from "./maps_api";
+import { venue_forecast } from "./besttime_api";
 
 const dist_between_coords = (
   lat1: number,
@@ -85,5 +83,19 @@ export const fetch_place_details = async (
 ): Promise<api_response<PlacesAPIResponse>> => {
   return axios.get(
     `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&fields=formatted_address&key=${process.env.googlemaps_api_key}`
+  );
+};
+
+export const fetch_venue_forecast = async (
+  venue_name: string,
+  venue_address: string
+): Promise<api_response<venue_forecast>> => {
+  const params = {
+    api_key_private: process.env.besttime_pri!,
+    venue_name: venue_name,
+    venue_address: venue_address,
+  };
+  return axios.post(
+    `https://besttime.app/api/v1/forecasts/live?${new URLSearchParams(params)}`
   );
 };
