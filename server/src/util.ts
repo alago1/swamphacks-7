@@ -6,6 +6,7 @@ import {
   api_response,
 } from "./maps_api";
 import { venue_forecast } from "./besttime_api";
+const fetch = require("node-fetch");
 
 const dist_between_coords = (
   lat1: number,
@@ -89,13 +90,26 @@ export const fetch_place_details = async (
 export const fetch_venue_forecast = async (
   venue_name: string,
   venue_address: string
-): Promise<api_response<venue_forecast>> => {
+): Promise<venue_forecast> => {
   const params = {
     api_key_private: process.env.besttime_pri!,
     venue_name: venue_name,
     venue_address: venue_address,
   };
-  return axios.post(
-    `https://besttime.app/api/v1/forecasts/live?${new URLSearchParams(params)}`
+  const response = await fetch(
+    `https://besttime.app/api/v1/forecasts/live?${new URLSearchParams(params)}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: "",
+    }
   );
+
+  return response.json();
+  //   return axios.post(
+  //     `https://besttime.app/api/v1/forecasts/live?${new URLSearchParams(params)}`,
+  //     params
+  //   );
 };

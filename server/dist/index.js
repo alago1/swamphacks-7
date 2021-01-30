@@ -38,8 +38,8 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     app.listen(8000);
 });
 const fetch_locations = (_, response) => {
-    const location = { lat: -33.8670522, lng: 151.1957362 };
-    const radius = 100;
+    const location = { lat: 28.54685, lng: -81.53067 };
+    const radius = 1000;
     const filter = "restaurant";
     util_1.fetch_nearby_places(location, radius, filter)
         .then((res) => {
@@ -55,9 +55,23 @@ const fetch_locations = (_, response) => {
         })));
         return detailed_places;
     }))
-        .then((places) => {
-        response.send(places);
-    });
+        .then((places) => __awaiter(void 0, void 0, void 0, function* () {
+        const forecasted_places = [];
+        yield Promise.all(places.map((e) => __awaiter(void 0, void 0, void 0, function* () {
+            const forecast = util_1.fetch_venue_forecast(e.name, e.formatted_address);
+            forecasted_places.push(Object.assign({ forecast: yield forecast }, e));
+            return forecast;
+        })));
+        return forecasted_places
+            .filter((e) => e.forecast.status === "OK")
+            .map((e) => (Object.assign(Object.assign({}, e), { forecast: e.forecast.analysis })));
+    }))
+        .then((e) => {
+        console.log("success");
+        console.log(e.length);
+        response.send(e);
+    })
+        .catch((e) => console.error(e));
 };
 main();
 //# sourceMappingURL=index.js.map

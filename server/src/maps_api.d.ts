@@ -58,6 +58,7 @@ export interface NearbyPlacesResults extends PlacesAPIResults {
   types: detailed_place_type[];
   distance?: number;
   formatted_address?: string;
+  forecast?: Object;
 }
 
 export interface PlaceDetailsResults extends PlacesAPIResults {

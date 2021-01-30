@@ -5,6 +5,7 @@ import {
   filter_by_closest,
   fetch_nearby_places,
   fetch_place_details,
+  fetch_venue_forecast,
 } from "./util";
 import { PlacesAPIResponse, NearbyPlacesResults } from "./maps_api";
 
@@ -37,8 +38,8 @@ const main = async () => {
 };
 
 const fetch_locations = (_: any, response: any) => {
-  const location = { lat: -33.8670522, lng: 151.1957362 };
-  const radius = 100;
+  const location = { lat: 28.54685, lng: -81.53067 };
+  const radius = 1000;
   const filter = "restaurant";
 
   fetch_nearby_places(location, radius, filter)
@@ -68,10 +69,30 @@ const fetch_locations = (_: any, response: any) => {
       );
       return detailed_places;
     })
-    .then((places: NearbyPlacesResults[]) => {
+    .then(async (places: NearbyPlacesResults[]) => {
       // get forecast data
-      response.send(places);
-    });
+      const forecasted_places: NearbyPlacesResults[] = [];
+      await Promise.all(
+        places.map(async (e) => {
+          const forecast = fetch_venue_forecast(e.name, e.formatted_address!);
+          forecasted_places.push({
+            forecast: await forecast,
+            ...e,
+          });
+          return forecast;
+        })
+      );
+      return forecasted_places
+        .filter((e: any) => e.forecast.status === "OK")
+        .map((e: any) => ({ ...e, forecast: e.forecast.analysis }));
+    })
+    .then((e) => {
+      console.log("success");
+      // console.log(e);
+      console.log(e.length);
+      response.send(e);
+    })
+    .catch((e) => console.error(e));
 };
 
 main();

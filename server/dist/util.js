@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fetch_venue_forecast = exports.fetch_place_details = exports.fetch_nearby_places = exports.filter_by_closest = void 0;
 const axios_1 = __importDefault(require("axios"));
+const fetch = require("node-fetch");
 const dist_between_coords = (lat1, lng1, lat2, lng2) => {
     const R = 6371e3;
     const φ1 = (lat1 * Math.PI) / 180;
@@ -67,7 +68,14 @@ const fetch_venue_forecast = (venue_name, venue_address) => __awaiter(void 0, vo
         venue_name: venue_name,
         venue_address: venue_address,
     };
-    return axios_1.default.post(`https://besttime.app/api/v1/forecasts/live?${new URLSearchParams(params)}`);
+    const response = yield fetch(`https://besttime.app/api/v1/forecasts/live?${new URLSearchParams(params)}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: "",
+    });
+    return response.json();
 });
 exports.fetch_venue_forecast = fetch_venue_forecast;
 //# sourceMappingURL=util.js.map
