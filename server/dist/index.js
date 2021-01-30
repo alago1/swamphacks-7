@@ -20,6 +20,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
     const app = express_1.default();
     app.use(body_parser_1.default.json());
     app.get("/", (req, res) => fetch_locations(req, res));
+    app.get("/compass", (req, res) => show_compass(req, res));
     axios_1.default
         .get(`https://besttime.app/api/v1/keys/${process.env.besttime_pri}`)
         .then((res) => {
@@ -35,7 +36,7 @@ const main = () => __awaiter(void 0, void 0, void 0, function* () {
             console.log(e);
         }
     });
-    app.listen(8000);
+    app.listen(process.env.PORT || 8000);
 });
 const fetch_locations = (request, response) => {
     const location = { lat: request.query.lat, lng: request.query.lng };
@@ -73,6 +74,69 @@ const fetch_locations = (request, response) => {
         response.send(e);
     })
         .catch((e) => console.error(e));
+};
+const show_compass = (request, response) => {
+    response.send(`<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  .compass {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    margin: auto;
+  }
+
+  .compass > .arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-style: solid;
+    border-width: 30px 20px 0 20px;
+    border-color: red transparent transparent transparent;
+    z-index: 1;
+  }
+
+  .compass > .compass-circle,
+  .compass > .my-point {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease-out;
+    background: url(https://purepng.com/public/uploads/large/purepng.com-compasscompassinstrumentnavigationcardinal-directionspointsdiagram-1701527842316onq7x.png)
+      center no-repeat;
+    background-size: contain;
+  }
+
+  .compass > .my-point {
+    opacity: 0;
+    width: 20%;
+    height: 20%;
+    background: rgb(8, 223, 69);
+    border-radius: 50%;
+    transition: opacity 0.5s ease-out;
+  }
+
+  .start-btn {
+    margin-bottom: auto;
+  }
+</style><div class="compass">
+  <div class="arrow"></div>
+  <div class="compass-circle"></div>
+  <div class="my-point"></div>
+</div>
+<button class="start-btn">Start compass</button>`);
 };
 main();
 //# sourceMappingURL=index.js.map
