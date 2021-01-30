@@ -1,3 +1,9 @@
-const hello = () => "Hello Swamphacks VII!";
+import axios from "axios";
 
-console.log(hello());
+const main = async () => {
+  axios.get("https://api.kanye.rest").then((res: any) => {
+    console.log(res.data);
+  });
+};
+
+main();
