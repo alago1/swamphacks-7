@@ -14,10 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
-    axios_1.default.get("https://api.kanye.rest").then((res) => {
-        console.log(res.data);
+    const location = { lat: -33.8670522, lng: 151.1957362 };
+    const radius = 50;
+    const filter = "restaurant";
+    axios_1.default
+        .get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.lat},${location.lng}&radius=${radius}&type=${filter}&key=${process.env.googlemaps_api_key}`)
+        .then((res) => {
+        console.log(res.data.results);
     });
-    console.log(process.env.test);
 });
 main();
 //# sourceMappingURL=index.js.map

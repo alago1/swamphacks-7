@@ -1,11 +1,17 @@
 import axios from "axios";
 
 const main = async () => {
-  axios.get("https://api.kanye.rest").then((res: any) => {
-    console.log(res.data);
-  });
+  const location = { lat: -33.8670522, lng: 151.1957362 };
+  const radius = 50;
+  const filter = "restaurant";
 
-  console.log(process.env.test);
+  axios
+    .get(
+      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.lat},${location.lng}&radius=${radius}&type=${filter}&key=${process.env.googlemaps_api_key}`
+    )
+    .then((res: any) => {
+      console.log(res.data.results);
+    });
 };
 
 main();
