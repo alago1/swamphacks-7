@@ -1,10 +1,15 @@
 import express from "express";
 import {
-  find_closest_results,
+  filter_by_closest,
   fetch_nearby_places,
   fetch_place_details,
 } from "./util";
-import { PlacesAPIResponse } from "./maps_api";
+import {
+  PlacesAPIResponse,
+  api_results,
+  NearbyPlacesResults,
+  PlaceDetailsResults,
+} from "./maps_api";
 
 const main = async () => {
   const app = express();
@@ -23,10 +28,29 @@ const fetch_locations = (_: any, response: any) => {
     .then((res: any) => {
       const data = res.data as PlacesAPIResponse;
 
-      return find_closest_results(location.lat, location.lng, data.results, 10);
+      return filter_by_closest(
+        location.lat,
+        location.lng,
+        data.results!,
+        10
+      ) as NearbyPlacesResults[];
     })
-    .then((res: any) => {
-      // const
+    .then(async (closest: NearbyPlacesResults[]) => {
+      const detailed_places: NearbyPlacesResults[] = [];
+      await Promise.all(
+        closest.map(async (e) => {
+          const details = fetch_place_details(e.place_id);
+          detailed_places.push({
+            ...(await details).data.result!,
+            ...e,
+          });
+          return details;
+        })
+      );
+      return detailed_places;
+    })
+    .then((e: any) => {
+      response.send(e);
     });
 };
 

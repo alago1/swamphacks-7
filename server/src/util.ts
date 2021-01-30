@@ -6,6 +6,7 @@ import {
   PlacesAPIResults,
   PlacesAPIResponse,
   api_results,
+  api_response,
 } from "./maps_api";
 
 const dist_between_coords = (
@@ -29,21 +30,22 @@ const dist_between_coords = (
   return d;
 };
 
-export const find_closest_results = (
+export const filter_by_closest = (
   lat1: number,
   lng1: number,
   google_places_results: api_results,
   amt: number
 ): api_results => {
-  let all_dists = [];
+  const all_dists: number[] = [];
 
-  for (let i = 0; i < google_places_results.length; i++) {
-    const lat2 = google_places_results[i].geometry.location.lat;
-    const lng2 = google_places_results[i].geometry.location.lng;
+  google_places_results = google_places_results.map((e) => {
+    const lat2 = e.geometry.location.lat;
+    const lng2 = e.geometry.location.lng;
     const dist = dist_between_coords(lat1, lng1, lat2, lng2);
-    all_dists[i] = dist;
-    google_places_results[i].distance = dist;
-  }
+    all_dists.push(dist);
+    e.distance = dist;
+    return e;
+  });
 
   let closest_results: api_results = [];
   let taken_indices: number[] = [];
@@ -61,14 +63,14 @@ export const find_closest_results = (
     taken_indices.push(low_dist_index);
   }
 
-  return closest_results;
+  return closest_results.filter((e) => e); //filter out undefined if there are less than amt results
 };
 
 export const fetch_nearby_places = async (
   location: location,
   radius: number,
   filter: string
-): Promise<PlacesAPIResponse> => {
+): Promise<api_response<PlacesAPIResponse>> => {
   return axios.get(
     `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${
       location.lat
@@ -80,7 +82,7 @@ export const fetch_nearby_places = async (
 
 export const fetch_place_details = async (
   place_id: string
-): Promise<PlacesAPIResults> => {
+): Promise<api_response<PlacesAPIResponse>> => {
   return axios.get(
     `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&fields=formatted_address&key=${process.env.googlemaps_api_key}`
   );

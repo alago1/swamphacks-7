@@ -1,11 +1,15 @@
 import { api_nearby_places, api_place_details } from "./constants";
 
+export interface api_response<T> {
+  data: T;
+}
 export type api_results = (NearbyPlacesResults | PlaceDetailsResults)[];
 
 export interface PlacesAPIResponse {
   html_attributions: string[];
   next_page_token: string;
-  results: api_results;
+  results?: api_results;
+  result?: PlaceDetailsResults;
   status:
     | "OK"
     | "UNKNOWN_ERROR"
@@ -53,11 +57,13 @@ export interface NearbyPlacesResults extends PlacesAPIResults {
   user_ratings_total: number;
   types: detailed_place_type[];
   distance?: number;
+  formatted_address?: string;
 }
 
 export interface PlaceDetailsResults extends PlacesAPIResults {
   rating: number;
   user_ratings_total: number;
   types: detailed_place_type[];
+  formatted_address: string;
   distance?: number;
 }

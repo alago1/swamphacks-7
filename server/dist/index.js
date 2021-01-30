@@ -26,9 +26,19 @@ const fetch_locations = (_, response) => {
     util_1.fetch_nearby_places(location, radius, filter)
         .then((res) => {
         const data = res.data;
-        return util_1.find_closest_results(location.lat, location.lng, data.results, 10);
+        return util_1.filter_by_closest(location.lat, location.lng, data.results, 10);
     })
-        .then((res) => {
+        .then((closest) => __awaiter(void 0, void 0, void 0, function* () {
+        const detailed_places = [];
+        yield Promise.all(closest.map((e) => __awaiter(void 0, void 0, void 0, function* () {
+            const details = util_1.fetch_place_details(e.place_id);
+            detailed_places.push(Object.assign(Object.assign({}, (yield details).data.result), e));
+            return details;
+        })));
+        return detailed_places;
+    }))
+        .then((e) => {
+        response.send(e);
     });
 };
 main();
