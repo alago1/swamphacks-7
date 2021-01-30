@@ -13,15 +13,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
+const express_1 = __importDefault(require("express"));
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
+    const app = express_1.default();
+    app.get("/", (req, res) => fetch_locations(req, res));
+    app.listen(8000);
+});
+const fetch_locations = (_, response) => {
     const location = { lat: -33.8670522, lng: 151.1957362 };
-    const radius = 50;
+    const radius = 1000;
     const filter = "restaurant";
     axios_1.default
         .get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.lat},${location.lng}&radius=${radius}&type=${filter}&key=${process.env.googlemaps_api_key}`)
         .then((res) => {
-        console.log(res.data.results);
+        console.log(`${res.data.results.length} results`);
+        response.send(JSON.stringify(res.data.results, null, 2));
     });
-});
+};
 main();
 //# sourceMappingURL=index.js.map
