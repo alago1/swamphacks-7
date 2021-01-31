@@ -3,6 +3,7 @@ import axios from "axios";
 import { Geolocation } from "./types/geolocation";
 import { attemptGetGeolocation } from "./util/geolocation";
 import Compass from "./Compass";
+import Timer from "./Timer";
 import "./App.css";
 
 function App() {
@@ -44,7 +45,7 @@ function App() {
           }
         )
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           setData(res.data);
         })
         .catch((e) => console.error(e));
@@ -67,6 +68,7 @@ function App() {
         <button onClick={() => setStartSearch(true)} disabled={startSearch}>
           Search for places
         </button>
+        <Timer duration={120} start={startSearch} onCountdownEnd={() => {}} />
       </header>
     </div>
   );
