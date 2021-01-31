@@ -42,7 +42,7 @@ function App() {
           .join(","),
       };
       const searchParams = String(new URLSearchParams(params));
-
+      console.log(searchParams);
       axios
         .get(
           `https://cors-anywhere.herokuapp.com/https://us-central1-astral-outpost-303423.cloudfunctions.net/fetch_locations?${searchParams}`,
@@ -99,7 +99,11 @@ function App() {
     <div className="App">
       <header className="App-header">
         {geolocation && <Compass lat={weighted?.lat} lng={weighted?.lng} />}
-        <button onClick={() => setStartSearch(true)} disabled={startSearch}>
+        <button
+          onClick={() => setStartSearch(true)}
+          disabled={startSearch}
+          className="button-styled"
+        >
           Search for places
         </button>
         <Timer

@@ -92,7 +92,7 @@ const Compass = (props: any) => {
         {/* <div className="my-point"></div> */}
       </div>
       <button
-        className="start-btn"
+        className="start-btn button-styled"
         onClick={() => start_compass(props.lat, props.lng)}
       >
         Start compass
