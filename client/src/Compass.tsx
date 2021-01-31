@@ -82,12 +82,12 @@ const Compass = (props: any) => {
       window.addEventListener("deviceorientationabsolute", handler, true);
     }
   }
-  // <div className="compass-ring"></div>
+
   return (
     <div>
       <div className="compass">
         {/* <div className="arrow"></div> */}
-        
+        <div className="compass-ring"></div>
         <div className="compass-circle"></div>
         {/* <div className="my-point"></div> */}
       </div>

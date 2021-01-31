@@ -46,7 +46,7 @@ code {
   left: 50%;
   transform: translate(-50%, -50%);
   transition: transform 0.1s ease-out;
-  background: url("assets/Icons/svg/compass_arrow.svg") center no-repeat;
+  background: url("assets/Icons/compass_arrow.png") center no-repeat;
   background-size: contain;
 }
 
