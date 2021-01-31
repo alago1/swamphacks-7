@@ -68,7 +68,7 @@ function start_compass() {
   }
 
   console.log("Before IOS check");
-  //if (isIOS) {
+  if (isIOS) {
     console.log("Is definitely IOS");
     DeviceOrientationEvent.requestPermission()
       .then((response) => {
@@ -79,10 +79,10 @@ function start_compass() {
         }
       })
       .catch(() => alert("not supported"));
-  /*} else {
+  } else {
     console.log("Not IOS");
     window.addEventListener("deviceorientationabsolute", handler, true);
-  }*/
+  }
 
 }
 
