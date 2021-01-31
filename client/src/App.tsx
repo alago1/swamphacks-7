@@ -23,31 +23,32 @@ function App() {
   }, [startSearch]);
 
   useEffect(() => {
-    if (startSearch) {
-      attemptGetGeolocation(onGeolocationSuccess);
+    if (startSearch) attemptGetGeolocation(onGeolocationSuccess);
+  }, [startSearch]);
 
-      if (geolocation) {
-        const params = {
-          lat: String(geolocation.lat),
-          lng: String(geolocation.lng),
-          filter: "restaurant",
-        };
-        const searchParams = String(new URLSearchParams(params));
-        axios
-          .get(
-            `https://us-central1-astral-outpost-303423.cloudfunctions.net/fetch_locations?${searchParams}`,
-            {
-              headers: { "Access-Control-Allow-Origin": "*" },
-            }
-          )
-          .then((res) => {
-            setData(res.data);
-            console.log(res.data);
-          })
-          .catch((e) => console.error(e));
-      }
+  useEffect(() => {
+    if (geolocation?.lat && geolocation?.lng) {
+      const params = {
+        lat: String(geolocation?.lat ?? "29.6483"),
+        lng: String(geolocation?.lng ?? "-82.3494"),
+        filter: "restaurant",
+      };
+      const searchParams = String(new URLSearchParams(params));
+
+      axios
+        .get(
+          `https://cors-anywhere.herokuapp.com/https://us-central1-astral-outpost-303423.cloudfunctions.net/fetch_locations?${searchParams}`,
+          {
+            headers: { "Access-Control-Allow-Origin": "*" },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          setData(res.data);
+        })
+        .catch((e) => console.error(e));
     }
-  }, [startSearch, geolocation]);
+  }, [geolocation]);
 
   const onGeolocationSuccess = (pos: any) => {
     const crd = pos.coords;
