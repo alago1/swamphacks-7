@@ -4,6 +4,7 @@ import { Geolocation } from "./types/geolocation";
 import { attemptGetGeolocation } from "./util/geolocation";
 import Compass from "./Compass";
 import Timer from "./Timer";
+import Filters from "./Filters"
 import "./App.css";
 import { calculate_weighted_avg } from "./util/weighted_avg";
 
@@ -85,6 +86,7 @@ function App() {
             setWeighted(calculate_weighted_avg(data));
           }}
         />
+        <Filters/>
       </header>
     </div>
   );

@@ -88,6 +88,7 @@ const Compass = (props: any) => {
       <div className="compass">
         {/* <div className="arrow"></div> */}
         <div className="compass-circle"></div>
+        <div className="compass-ring"></div>
         {/* <div className="my-point"></div> */}
       </div>
       <button

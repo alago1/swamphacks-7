@@ -40,13 +40,25 @@ code {
 .compass > .compass-circle,
 .compass > .my-point {
   position: absolute;
-  width: 90%;
-  height: 90%;
+  width: 25%;
+  height: 25%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   transition: transform 0.1s ease-out;
   background: url("assets/Icons/svg/compass_arrow.svg") center no-repeat;
+  background-size: contain;
+}
+
+.compass > .compass-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease-out;
+  background: url("assets/Icons/svg/compass_ring.svg") center no-repeat;
   background-size: contain;
 }
 
