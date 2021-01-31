@@ -32,12 +32,19 @@ function App() {
           lng: String(geolocation.lng),
           filter: "restaurant",
         };
+        const searchParams = String(new URLSearchParams(params));
         axios
-          .get(`http://localhost:8000/${new URLSearchParams(params)}`)
+          .get(
+            `https://us-central1-astral-outpost-303423.cloudfunctions.net/fetch_locations?${searchParams}`,
+            {
+              headers: { "Access-Control-Allow-Origin": "*" },
+            }
+          )
           .then((res) => {
             setData(res.data);
             console.log(res.data);
-          });
+          })
+          .catch((e) => console.error(e));
       }
     }
   }, [startSearch, geolocation]);
