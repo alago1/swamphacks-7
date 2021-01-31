@@ -45,8 +45,8 @@ function App() {
           }
         )
         .then((res) => {
-          // console.log(res);
-          setData(res.data);
+          const res_data = res.data;
+          setData(res_data);
         })
         .catch((e) => console.error(e));
     }

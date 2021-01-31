@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="208.49983mm"
+   height="208.49983mm"
+   viewBox="0 0 208.49983 208.49982"
+   version="1.1"
+   id="svg8"
+   inkscape:export-filename="C:\Users\Juan\OneDrive - Knights - University of Central Florida\Downloads\swamphacks_images\Icons\compass_ring.png"
+   inkscape:export-xdpi="97.458107"
+   inkscape:export-ydpi="97.458107"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   sodipodi:docname="compass_ring.svg">
+  <defs
+     id="defs2">
+    <filter
+       inkscape:menu="Bumps"
+       inkscape:menu-tooltip="Convoluted emboss effect"
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Convoluted Bump"
+       id="filter7272">
+      <feConvolveMatrix
+         in="SourceGraphic"
+         bias="0"
+         divisor="0"
+         targetX="1"
+         targetY="1"
+         result="result10"
+         kernelMatrix="0 100 0 100 -401 100 0 100 0 "
+         order="3 3"
+         id="feConvolveMatrix7256" />
+      <feColorMatrix
+         values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.21 -0.72 -0.07 1 0 "
+         in="result10"
+         type="matrix"
+         result="result2"
+         id="feColorMatrix7258" />
+      <feGaussianBlur
+         result="result11"
+         stdDeviation="0.01"
+         id="feGaussianBlur7260" />
+      <feDiffuseLighting
+         surfaceScale="15"
+         result="result1"
+         diffuseConstant="0.5"
+         in="result11"
+         lighting-color="#ffffff"
+         id="feDiffuseLighting7264">
+        <feDistantLight
+           elevation="10"
+           azimuth="225"
+           id="feDistantLight7262" />
+      </feDiffuseLighting>
+      <feGaussianBlur
+         result="result12"
+         in="SourceGraphic"
+         stdDeviation="0.01"
+         id="feGaussianBlur7266" />
+      <feComposite
+         in2="result12"
+         in="result1"
+         k3="0.8"
+         k2="1"
+         operator="arithmetic"
+         result="result9"
+         id="feComposite7268"
+         k1="0"
+         k4="0" />
+      <feComposite
+         in2="SourceGraphic"
+         in="result9"
+         operator="in"
+         result="result7"
+         id="feComposite7270" />
+    </filter>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5732"
+       id="radialGradient5734"
+       cx="93.712036"
+       cy="18.574474"
+       fx="93.712036"
+       fy="18.574474"
+       r="88.471451"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-0.59714508,0.59714508,-0.61558285,-0.61558285,178.05015,0.79427636)" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient5732">
+      <stop
+         style="stop-color:#e34f39;stop-opacity:1;"
+         offset="0"
+         id="stop5728" />
+      <stop
+         style="stop-color:#ff2a7f;stop-opacity:1"
+         offset="1"
+         id="stop5730" />
+    </linearGradient>
+    <filter
+       inkscape:label="Stained Glass"
+       inkscape:menu="Bevels"
+       inkscape:menu-tooltip="Illuminated stained glass effect"
+       height="1.5"
+       width="1.5"
+       y="-0.25"
+       x="-0.25"
+       style="color-interpolation-filters:sRGB"
+       id="filter5838">
+      <feBlend
+         in2="SourceGraphic"
+         result="result1"
+         mode="screen"
+         id="feBlend5816" />
+      <feGaussianBlur
+         stdDeviation="7"
+         result="result6"
+         id="feGaussianBlur5818" />
+      <feComposite
+         operator="xor"
+         in="result6"
+         in2="result6"
+         result="result7"
+         id="feComposite5820" />
+      <feComposite
+         in2="result1"
+         operator="atop"
+         in="result6"
+         result="result92"
+         id="feComposite5822" />
+      <feComposite
+         result="result4"
+         in="result7"
+         operator="xor"
+         in2="result92"
+         id="feComposite5824" />
+      <feGaussianBlur
+         result="result3"
+         stdDeviation="0.7"
+         in="result4"
+         id="feGaussianBlur5826" />
+      <feSpecularLighting
+         result="result5"
+         specularExponent="50"
+         specularConstant="1.5"
+         surfaceScale="4"
+         id="feSpecularLighting5830">
+        <fePointLight
+           z="20000"
+           y="-8000"
+           x="-5000"
+           id="fePointLight5828" />
+      </feSpecularLighting>
+      <feComposite
+         in="result3"
+         k3="1"
+         k2="1"
+         operator="arithmetic"
+         in2="SourceGraphic"
+         result="result93"
+         id="feComposite5832"
+         k1="0"
+         k4="0" />
+      <feComposite
+         in="result5"
+         operator="atop"
+         in2="result93"
+         result="result94"
+         id="feComposite5834" />
+      <feBlend
+         mode="multiply"
+         in2="result94"
+         id="feBlend5836" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="387.78037"
+     inkscape:cy="446.78412"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1498"
+     inkscape:window-height="1041"
+     inkscape:window-x="-8"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-0.96702363,-32.161208)">
+    <circle
+       style="fill:none;fill-opacity:1;stroke:url(#radialGradient5734);stroke-width:4.00542;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter5838)"
+       id="path5718"
+       cx="110.65633"
+       cy="94.56398"
+       r="51.570644"
+       transform="matrix(1.3476648,0,0,1.3476648,-43.910699,8.970574)" />
+  </g>
+</svg>
