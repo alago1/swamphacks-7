@@ -15,3 +15,6 @@
 
 node_modules
 src
+.env
+tsconfig.json
+yarn.lock
