@@ -4,10 +4,10 @@ import { Geolocation } from "./types/geolocation";
 import { attemptGetGeolocation } from "./util/geolocation";
 import Compass from "./Compass";
 import Timer from "./Timer";
-import Filters from "./Filters"
+import Filters from "./Filters";
 import "./App.css";
 import { calculate_weighted_avg } from "./util/weighted_avg";
-import {filters_active} from './Filters'
+import { filters_active } from "./Filters";
 
 function App() {
   const [geolocation, setGeolocation] = useState<Geolocation>();
@@ -37,7 +37,9 @@ function App() {
       const params = {
         lat: String(geolocation?.lat ?? "29.6483"),
         lng: String(geolocation?.lng ?? "-82.3494"),
-        filter: "restaurant",
+        filter: Object.keys(filters_active)
+          .filter((e) => filters_active[e])
+          .join(","),
       };
       const searchParams = String(new URLSearchParams(params));
 
@@ -53,8 +55,7 @@ function App() {
             const rating = e.rating ?? 2.5;
             const distance = e.distance ?? 500;
             let buzyness = e.forecast?.venue_live_busyness ?? 100;
-            if (!buzyness)
-              buzyness = 100;
+            if (!buzyness) buzyness = 100;
             const types = e.types ?? [];
 
             e.weight = Math.pow(rating, 4) / (buzyness * distance);
@@ -63,7 +64,6 @@ function App() {
 
           let final_res_data: any = [];
           res.data.forEach((e: any) => {
-
             let should_include = false;
             e.types.forEach((type: string) => {
               if (type in filters_active) {
@@ -72,8 +72,7 @@ function App() {
             });
             if (should_include || e.types.length == 0) {
               final_res_data.push(e);
-            }
-            else {
+            } else {
               console.log("Excluding 1");
             }
           });
@@ -110,7 +109,7 @@ function App() {
             setWeighted(calculate_weighted_avg(data));
           }}
         />
-        <Filters/>
+        <Filters />
       </header>
     </div>
   );
