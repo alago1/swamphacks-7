@@ -1,6 +1,6 @@
-import axios from "axios";
-import express from "express";
-import bodyParser from "body-parser";
+// import axios from "axios";
+// import express from "express";
+// import bodyParser from "body-parser";
 import {
   filter_by_closest,
   fetch_nearby_places,
@@ -9,36 +9,38 @@ import {
   removeDups,
 } from "./util";
 import { NearbyPlacesResults } from "./maps_api";
+// const cors = require("cors");
 
-const main = async () => {
-  const app = express();
-  app.use(bodyParser.json());
+// const main = async () => {
+//   const app = express();
+//   app.use(bodyParser.json());
+//   app.use(cors());
 
-  app.get("/", (req, res) => fetch_locations(req, res));
+//   app.get("/", (req, res) => fetch_locations(req, res));
 
-  axios
-    .get(`https://besttime.app/api/v1/keys/${process.env.besttime_pri}`)
-    .then((res: any) => {
-      const e = res.data;
-      if (
-        e.status == "OK" &&
-        e.active &&
-        e.credits_forecast > 0 &&
-        e.credits_query > 0
-      ) {
-        console.log(
-          `Besttime api is ready! 🚀️  Credits left: ${e.credits_forecast}F ${e.credits_query}Q`
-        );
-      } else {
-        console.log("Besttime api problem 😵️");
-        console.log(e);
-      }
-    });
+//   axios
+//     .get(`https://besttime.app/api/v1/keys/${process.env.besttime_pri}`)
+//     .then((res: any) => {
+//       const e = res.data;
+//       if (
+//         e.status == "OK" &&
+//         e.active &&
+//         e.credits_forecast > 0 &&
+//         e.credits_query > 0
+//       ) {
+//         console.log(
+//           `Besttime api is ready! 🚀️  Credits left: ${e.credits_forecast}F ${e.credits_query}Q`
+//         );
+//       } else {
+//         console.log("Besttime api problem 😵️");
+//         console.log(e);
+//       }
+//     });
 
-  app.listen(process.env.PORT || 8000);
-};
+//   app.listen(process.env.PORT || 8000);
+// };
 
-const fetch_locations = (request: any, response: any) => {
+exports.fetch_locations = (request: any, response: any) => {
   const location = { lat: request.query.lat, lng: request.query.lng };
   const radius = 1000;
   const disabled_pois = request.query.filter;
@@ -104,4 +106,4 @@ const fetch_locations = (request: any, response: any) => {
     .catch((e) => console.error(e));
 };
 
-main();
+// main();
