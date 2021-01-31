@@ -1,8 +1,8 @@
 export const calculate_weighted_avg = (data: any) => {
   return weighted_avg_geo_coords(
     data.map((e: any) => ({
-      lat: e.lat,
-      lng: e.lng,
+      lat: e.geometry.location.lat,
+      lng: e.geometry.location.lng,
       weight: e.weight,
     }))
   );
@@ -13,13 +13,15 @@ export const weighted_avg_geo_coords = (geo_coords: any) => {
 
   // sums all weights
   let totalWeight = 0;
-  geo_coords.array.forEach((element: any) => {
+  console.log("geo coords");
+  console.dir(geo_coords);
+  geo_coords.forEach((element: any) => {
     totalWeight += element.weight;
   });
 
   // makes new coords object with cartesian instead of geo coords
   let cartesian_coords: any = [];
-  geo_coords.array.forEach((element: any) => {
+  geo_coords.forEach((element: any) => {
     let { x, y, z } = geo_coords_to_cartesian(element.lat, element.lng);
     cartesian_coords.push({ x: x, y: y, z: z, weight: element.weight });
   });
