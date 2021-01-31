@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Geolocation } from "./types/geolocation";
 import { attemptGetGeolocation } from "./util/geolocation";
+import Compass from './Compass';
 import "./App.css";
 
 function App() {
@@ -62,13 +63,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+{geolocation &&  <Compass lat={geolocation.lat} lng={geolocation.lng} />}
         <button onClick={() => setStartSearch(true)} disabled={startSearch}>
           Search for places
         </button>
-        <h3>
-          {geolocation &&
-            `${geolocation.lat} ${geolocation.lng} @ ${geolocation.accuracy} accuracy`}
-        </h3>
       </header>
     </div>
   );

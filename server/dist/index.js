@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const util_1 = require("./util");
+
 exports.fetch_locations = (request, response) => {
     var _a;
     const location = { lat: request.query.lat, lng: request.query.lng };
