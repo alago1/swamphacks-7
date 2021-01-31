@@ -37,22 +37,18 @@ function App() {
 
       axios
         .get(
-          `https://us-central1-astral-outpost-303423.cloudfunctions.net/fetch_locations?${searchParams}`,
+          `https://cors-anywhere.herokuapp.com/https://us-central1-astral-outpost-303423.cloudfunctions.net/fetch_locations?${searchParams}`,
           {
             headers: { "Access-Control-Allow-Origin": "*" },
           }
         )
         .then((res) => {
+          console.log(res);
           setData(res.data);
         })
         .catch((e) => console.error(e));
     }
   }, [geolocation]);
-
-  useEffect(() => {
-    console.log("data:");
-    console.log(data);
-  }, [data]);
 
   const onGeolocationSuccess = (pos: any) => {
     const crd = pos.coords;
