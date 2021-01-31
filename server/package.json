@@ -6,7 +6,8 @@
   "scripts": {
     "watch": "tsc -w",
     "dev": "nodemon -r dotenv/config dist/index.js",
-    "start": "node -r dotenv/config dist/index.js"
+    "start": "node -r dotenv/config dist/index.js",
+    "gcloud-deploy": "gcloud functions deploy 'fetch_locations' --runtime nodejs10 --trigger-http --entry-point=fetch_locations"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",

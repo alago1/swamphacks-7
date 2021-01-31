@@ -11,9 +11,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const util_1 = require("./util");
 exports.fetch_locations = (request, response) => {
+    var _a;
     const location = { lat: request.query.lat, lng: request.query.lng };
     const radius = 1000;
-    const disabled_pois = request.query.filter;
+    const disabled_pois = (_a = request.query.filter) === null || _a === void 0 ? void 0 : _a.split(",");
     util_1.fetch_nearby_places(location, radius, disabled_pois)
         .then((places) => {
         const queried_places = util_1.removeDups(places

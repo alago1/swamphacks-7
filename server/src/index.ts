@@ -43,7 +43,7 @@ import { NearbyPlacesResults } from "./maps_api";
 exports.fetch_locations = (request: any, response: any) => {
   const location = { lat: request.query.lat, lng: request.query.lng };
   const radius = 1000;
-  const disabled_pois = request.query.filter;
+  const disabled_pois = request.query.filter?.split(",");
 
   fetch_nearby_places(location, radius, disabled_pois)
     .then((places: any[]) => {
