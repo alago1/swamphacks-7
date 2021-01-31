@@ -4,17 +4,21 @@ import './App.css';
 
 function App() {
 
-  show_compass();
+  console.log("App started at least");
 
-  return (<div><div className="compass">
-    <div className="arrow"></div>
-    <div className="compass-circle"></div>
-    <div className="my-point"></div>
-  </div>
-    <button className="start-btn">Start compass</button></div>);
+  return (<div className="App">
+    <header className="App-header">
+      <div className="compass">
+      <div className="arrow"></div>
+      <div className="compass-circle"></div>
+      <div className="my-point"></div>
+    </div>
+      <button className="start-btn" onClick={() => start_compass()}>Start compass</button></header></div>);
 }
 
-function show_compass() {
+function start_compass() {
+  console.log("in start_compass()");
+  navigator.geolocation.getCurrentPosition(locationHandler);
   const compassCircle:any = document.querySelector(".compass-circle");
   const startBtn = document.querySelector(".start-btn");
   const myPoint = document.querySelector(".my-point");
@@ -63,7 +67,9 @@ function show_compass() {
     return Math.round(psi);
   }
 
-  if (isIOS) {
+  console.log("Before IOS check");
+  //if (isIOS) {
+    console.log("Is definitely IOS");
     DeviceOrientationEvent.requestPermission()
       .then((response) => {
         if (response === "granted") {
@@ -73,9 +79,10 @@ function show_compass() {
         }
       })
       .catch(() => alert("not supported"));
-  } else {
+  /*} else {
+    console.log("Not IOS");
     window.addEventListener("deviceorientationabsolute", handler, true);
-  }
+  }*/
 
 }
 
