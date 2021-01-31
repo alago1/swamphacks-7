@@ -5,11 +5,13 @@ import { attemptGetGeolocation } from "./util/geolocation";
 import Compass from "./Compass";
 import Timer from "./Timer";
 import "./App.css";
+import { calculate_weighted_avg } from "./util/weighted_avg";
 
 function App() {
   const [geolocation, setGeolocation] = useState<Geolocation>();
   const [startSearch, setStartSearch] = useState(false);
   const [data, setData] = useState();
+  const [weighted, setWeighted] = useState<Geolocation>();
 
   useEffect(() => {
     let id: NodeJS.Timeout | null = null;
@@ -45,8 +47,16 @@ function App() {
           }
         )
         .then((res) => {
-          const res_data = res.data;
+          const res_data = res.data.map((e: any) => {
+            const rating = e.rating ?? 2.5;
+            const distance = e.distance ?? 500;
+            const buzyness = e.forecast.venue_live_busyness ?? 100;
+
+            e.weight = Math.pow(rating, 4) / (buzyness * distance);
+            return e;
+          });
           setData(res_data);
+          setWeighted(calculate_weighted_avg(res_data));
         })
         .catch((e) => console.error(e));
     }
@@ -64,11 +74,17 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {geolocation && <Compass lat={geolocation.lat} lng={geolocation.lng} />}
+        {geolocation && <Compass lat={weighted?.lat} lng={weighted?.lng} />}
         <button onClick={() => setStartSearch(true)} disabled={startSearch}>
           Search for places
         </button>
-        <Timer duration={120} start={startSearch} onCountdownEnd={() => {}} />
+        <Timer
+          duration={120}
+          start={startSearch}
+          onCountdownEnd={() => {
+            setWeighted(calculate_weighted_avg(data));
+          }}
+        />
       </header>
     </div>
   );
