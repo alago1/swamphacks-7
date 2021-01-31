@@ -4,18 +4,21 @@ import './App.css';
 
 function App() {
 
-    return (<div><div className="compass">
+  show_compass();
+
+  return (<div><div className="compass">
     <div className="arrow"></div>
     <div className="compass-circle"></div>
     <div className="my-point"></div>
   </div>
-  <button className="start-btn">Start compass</button></div>);
+    <button className="start-btn">Start compass</button></div>);
 }
 
-const show_compass = (request: any, response: any) => {
-  /*let compass;
-  let compassCircle: any;
-  let myPoint: any;
+function show_compass() {
+  const compassCircle:any = document.querySelector(".compass-circle");
+  const startBtn = document.querySelector(".start-btn");
+  const myPoint = document.querySelector(".my-point");
+  let compass;
 
   function handler(e: any) {
     compass = e.webkitCompassHeading || Math.abs(e.alpha - 360);
@@ -72,7 +75,7 @@ const show_compass = (request: any, response: any) => {
       .catch(() => alert("not supported"));
   } else {
     window.addEventListener("deviceorientationabsolute", handler, true);
-  }*/
+  }
 
 }
 
