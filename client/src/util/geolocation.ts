@@ -9,10 +9,15 @@ const navigation_options = {
 export const attemptGetGeolocation = (
   success: Function = () => {},
   fail: Function = () => {}
-) => {
+): any | undefined => {
+  let position = null;
   navigator.geolocation.getCurrentPosition(
-    success as PositionCallback,
+    (pos: any) => {
+      position = success(pos);
+    },
     fail as PositionErrorCallback,
     navigation_options
   );
+
+  return position;
 };
