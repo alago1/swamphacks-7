@@ -92,5 +92,6 @@ code {
 }
 
 .filter-button > p {
+  color: white;
   transform: translateY(-30%);
 }
